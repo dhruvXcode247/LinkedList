@@ -36,7 +36,7 @@ node *convertarr2LL (vector <int> &arr) {
 }
 
 node *KthElementDeletion (node *head,int k) {
-    if (head==NULL) return NULL;
+    if (head==NULL) return head;
     if (k==1) {
         node *temp=head;
         head=head->next;
