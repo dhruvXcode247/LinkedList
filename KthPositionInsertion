@@ -1,0 +1,73 @@
+#include <stdlib.h>
+#include <iostream>
+#include <vector>
+using namespace std;
+struct node {
+    int data;
+    node *next;
+
+    node (int data1, node *next1) {
+        data=data1;
+        next=next1;
+    }
+
+    node (int data1) {
+        data=data1;
+        next=nullptr;
+    }
+};
+
+void printNodes(node *head) {
+    while (head!=NULL) {
+        cout << head->data << endl;
+        head=head->next;
+    }
+}
+
+node *convertarr2LL (vector <int> &arr) {
+    node *head=new node (arr[0]);
+    node *mover=head;
+    for (int i=1;i<arr.size();i++) {
+        node *temp=new node (arr[i]);
+        mover->next=temp;
+        mover=mover->next;
+    }
+    return head;
+}
+
+node *KthPositionInsertion (node *head, int value, int k) {
+    if (head=NULL) {
+        if (k==1) {
+            return new node (value);
+        }
+        else {
+            return head;
+        }
+    }
+
+    if (k==1) {
+        return new node(value,head);
+    }
+
+    else {
+        node *temp=head;
+        int count=0;
+        while (temp!=nullptr) {
+            count++;
+            if (count==k-1) {
+                node *newnode = new node(value,temp->next);
+                temp->next=newnode;
+                break;
+            }
+            temp=temp->next;
+        }
+    }
+    return head;
+}
+
+int main () {
+    vector <int> arr = {1,2,3,4,5};
+    node *head = convertarr2LL(arr);
+    head= KthPositionInsertion (head,100,1);
+    printNodes(head);
+}
