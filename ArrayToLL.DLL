@@ -1,0 +1,40 @@
+#include<iostream>
+#include<stdlib.h>
+#include<vector>
+
+using namespace std;
+
+struct node {
+    int data;
+    node *next;
+    node *back;
+
+    node (int data1) {
+        data=data1;
+        next=nullptr;
+        back=nullptr;
+    }
+
+    node (int data1,node*next1,node*back1) {
+        data=data1;
+        next=next1;
+        back=back1;
+    }
+};
+
+node *convertarr2LL (vector<int>&arr) {
+    node *head=new node(arr[0]);
+    node *mover=head;
+    for (int i=1;i<arr.size();i++) {
+        node *temp=head;
+        mover->next=temp;
+        temp=temp->next;
+    }
+    return head;
+}
+
+int main() {
+    vector<int> arr={1,2,3,4,5};
+    node *head=convertarr2LL(arr);
+    cout << head->data;
+}
