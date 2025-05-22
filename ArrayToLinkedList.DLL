@@ -22,19 +22,25 @@ struct node {
     }
 };
 
-node *convertarr2LL (vector<int>&arr) {
+node *convertarr2DLL (vector<int>&arr) {
     node *head=new node(arr[0]);
-    node *mover=head;
+    node *prev=head;
     for (int i=1;i<arr.size();i++) {
-        node *temp=head;
-        mover->next=temp;
-        temp=temp->next;
+        node *temp=new node(arr[i],nullptr,prev);
+        prev->next=temp;
+        prev=temp;
     }
     return head;
 }
 
+void printNode(node *head) {
+    while(head!=nullptr) {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+}
 int main() {
     vector<int> arr={1,2,3,4,5};
-    node *head=convertarr2LL(arr);
-    cout << head->data;
+    node *head=convertarr2DLL(arr);
+    printNode(head);
 }
