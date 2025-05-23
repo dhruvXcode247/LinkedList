@@ -1,0 +1,58 @@
+#include<iostream>
+#include<stdlib.h>
+#include<vector>
+
+using namespace std;
+
+struct node {
+    int data;
+    node *next;
+    node *back;
+
+    node (int data1) {
+        data=data1;
+        next=nullptr;
+        back=nullptr;
+    }
+
+    node (int data1,node*next1,node*back1) {
+        data=data1;
+        next=next1;
+        back=back1;
+    }
+};
+
+void printNode(node *head) {
+    while(head!=nullptr) {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+}
+
+node *convertarr2DLL (vector<int>&arr) {
+    node *head=new node(arr[0]);
+    node *prev=head;
+    for (int i=1;i<arr.size();i++) {
+        node *temp=new node(arr[i],nullptr,prev);
+        prev->next=temp;
+        prev=temp;
+    }
+    return head;
+}
+
+node *deleteTailNode(node *head) {
+    node *tail=head;
+    while(tail->next!=NULL) {
+        tail=tail->next;
+    }
+    node *newTail=tail->back;
+    newTail->next=nullptr;
+    tail->back=NULL;
+    return head;
+}
+int main() {
+    vector<int> arr={1,2,3,4,5};
+    node *head=convertarr2DLL(arr);
+    head=deleteTailNode(head);
+    printNode(head);
+}
