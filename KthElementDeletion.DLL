@@ -1,0 +1,106 @@
+#include<iostream>
+#include<stdlib.h>
+#include<vector>
+
+using namespace std;
+
+struct node {
+    int data;
+    node *next;
+    node *back;
+
+    node (int data1) {
+        data=data1;
+        next=nullptr;
+        back=nullptr;
+    }
+
+    node (int data1,node*next1,node*back1) {
+        data=data1;
+        next=next1;
+        back=back1;
+    }
+};
+
+void printNode(node *head) {
+    while(head!=nullptr) {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+}
+
+node *deleteTailNode(node *head) {
+    node *tail=head;
+    while(tail->next!=NULL) {
+        tail=tail->next;
+    }
+    node *newTail=tail->back;
+    newTail->next=nullptr;
+    tail->back=NULL;
+    return head;
+}
+
+node *deleteHeadNode(node *head) {
+    node *prev=head;
+    head=head->next;
+
+    head->next=nullptr;
+    head->back=NULL;
+
+    delete prev;
+    return head;
+}
+
+node *KthElementDeletion(node *head, int k) {
+    if (head==NULL) {
+        return nullptr;
+    }
+    int count=0;
+    node *temp=head;
+    while (temp!=nullptr) {
+        count++;
+        if (count==k) break;
+        temp=temp->next;
+    }
+
+    node *prev=temp->back;
+    node *front=temp->next;
+    
+    if (prev==NULL && front==nullptr) {
+        return nullptr;
+    }
+    if (front==NULL) {
+        return deleteTailNode(head);
+    }
+    if(prev==nullptr) {
+        return deleteHeadNode(head);
+    }
+
+    prev->next=front;
+    front->back=prev;
+
+    temp->next=NULL;
+    temp->back=NULL;
+
+    free(temp);
+    return head;
+}
+
+node *convertarr2DLL (vector<int>&arr) {
+    node *head=new node(arr[0]);
+    node *prev=head;
+    for (int i=1;i<arr.size();i++) {
+        node *temp=new node(arr[i],nullptr,prev);
+        prev->next=temp;
+        prev=temp;
+    }
+    return head;
+}
+
+int main() {
+    vector<int> arr={1,2,3,4,5};
+    node *head=convertarr2DLL(arr);
+    head=KthElementDeletion(head, 3);
+    printNode(head);
+    return 0;
+}
