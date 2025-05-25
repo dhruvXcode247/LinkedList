@@ -41,6 +41,12 @@ node *convertarr2DLL (vector<int>&arr) {
 }
 
 node *deleteTailNode(node *head) {
+    if (head==nullptr || head->next==NULL) {
+        head=NULL;
+        return nullptr;
+        free(head);
+    }
+
     node *tail=head;
     while(tail->next!=NULL) {
         tail=tail->next;
@@ -48,8 +54,10 @@ node *deleteTailNode(node *head) {
     node *newTail=tail->back;
     newTail->next=nullptr;
     tail->back=NULL;
+    delete tail;
     return head;
 }
+
 int main() {
     vector<int> arr={1,2,3,4,5};
     node *head=convertarr2DLL(arr);
