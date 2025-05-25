@@ -1,0 +1,70 @@
+#include<iostream>
+#include<stdlib.h>
+#include<vector>
+
+using namespace std;
+
+struct node {
+    int data;
+    node *next;
+    node *back;
+
+    node (int data1) {
+        data=data1;
+        next=nullptr;
+        back=nullptr;
+    }
+
+    node (int data1,node*next1,node*back1) {
+        data=data1;
+        next=next1;
+        back=back1;
+    }
+};
+
+void printNode(node *head) {
+    while(head!=nullptr) {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+}
+
+void DeletionByNode (node *temp) {
+    node *front=temp->next;
+    node *prev=temp->back;
+
+    if (front==NULL) {
+        prev->next=nullptr;
+        temp->back=nullptr;
+        free(temp);
+        return;
+    }
+
+    prev->next=front;
+    front->back=prev;
+
+    temp->back=NULL;
+    temp->next=nullptr;
+    delete temp;
+    return;
+}
+
+node *convertarr2DLL (vector<int>&arr) {
+    node *head=new node(arr[0]);
+    node *prev=head;
+    for (int i=1;i<arr.size();i++) {
+        node *temp=new node(arr[i],nullptr,prev);
+        prev->next=temp;
+        prev=temp;
+    }
+    return head;
+}
+
+int main() {
+    vector<int> arr={1,2,3,4,5};
+    node *head=convertarr2DLL(arr);
+    DeletionByNode(head->next);
+    // NEVER ASKED TO DELETE THE HEAD NODE
+    printNode(head);
+    return 0;
+}
